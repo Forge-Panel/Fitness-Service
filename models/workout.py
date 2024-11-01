@@ -1,5 +1,14 @@
-from pydantic import BaseModel
+from datetime import datetime
+
+from sqlmodel import SQLModel, Field
 
 
-class Workout(BaseModel):
-    pass
+class Workout(SQLModel, table=True):
+    __tablename__ = "workout"
+
+    id: int | None = Field(default=None, primary_key=True)
+
+    user_id: int = Field(foreign_key="user.id")
+
+    started_on: datetime
+    ended_on: datetime

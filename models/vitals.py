@@ -60,6 +60,7 @@ class Vitals(SQLModel, VitalsProperties, table=True):
     async def create_new(cls, user_id: int, properties: VitalsProperties) -> Vitals:
         vitals = cls(user_id=user_id, **properties.model_dump())
 
+        # Ensure the vitals measurements are precise to the minute instead of second.
         vitals.date = vitals.date.replace(second=0, microsecond=0, tzinfo=None)
 
         async with SessionFactory.get_session() as session:

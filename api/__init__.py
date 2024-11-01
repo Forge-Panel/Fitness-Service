@@ -11,7 +11,11 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="Forge-Fitness API",
+    description="Official Fitness module for the Forge project. Includes everything about Vitals, Workout, Nutrition & Sleep.",
+    lifespan=lifespan
+)
 
 
 # Init modules

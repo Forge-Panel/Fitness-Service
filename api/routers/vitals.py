@@ -14,7 +14,7 @@ async def get_current_user() -> int:
 router = APIRouter(prefix="/vitals", tags=["Vitals"])
 
 
-@router.get("/read_range")
+@router.get("/read_range", description="Read a range of measurements between 2 points in time.")
 async def read_vitals(
         user_id: Annotated[int, Depends(get_current_user)],
         start_date: datetime,
@@ -26,7 +26,7 @@ async def read_vitals(
         await service.read_all_vitals_measurement_between_range(start_date, end_date))
 
 
-@router.get("/get_one")
+@router.get("/get_one", description="Get one vitals measurement, based on a certain datetime precise to the minute")
 async def get_vitals(
         user_id: Annotated[int, Depends(get_current_user)],
         date: datetime
@@ -36,7 +36,7 @@ async def get_vitals(
     return VitalsResponseSchema.from_model(await service.get_one_vitals_measurement(date))
 
 
-@router.post("/add_measurement", status_code=201)
+@router.post("/add_measurement", status_code=201, description="Add a new vitals measurement")
 async def add_measurement(
         user_id: Annotated[int, Depends(get_current_user)],
         measurements: VitalsWriteSchema
