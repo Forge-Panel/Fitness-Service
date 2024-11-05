@@ -14,7 +14,7 @@ class VitalsResponseSchema:
     oxygen_level: int | None
 
     @classmethod
-    def from_model(cls, vitals: Vitals):
+    async def from_model(cls, vitals: Vitals):
         return cls(
             date=vitals.date,
             heart_rate=vitals.heart_rate,
@@ -24,11 +24,11 @@ class VitalsResponseSchema:
         )
 
     @classmethod
-    def from_models(cls, vitals: list[Vitals]):
+    async def from_models(cls, vitals: list[Vitals]):
         output = []
 
         for vital in vitals:
-            output.append(cls.from_model(vital))
+            output.append(await cls.from_model(vital))
 
         return output
 

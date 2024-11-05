@@ -1,6 +1,8 @@
+from sqlalchemy.dialects.mssql.information_schema import tables
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
 from sqlmodel import SQLModel
 from .session_factory import SessionFactory
+from .base_crud import BaseCRUD
 
 
 def init_engine(database_url: str) -> AsyncEngine:

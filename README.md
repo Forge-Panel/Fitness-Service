@@ -1,6 +1,31 @@
 # Forge Fitness Module
 
-## Setup 
+## Installation
+### Docker Compose
+
+Prerequisites
+- Forge-Core must be installed and setup
+
+#### Steps
+1. Launch the following docker services
+```yaml
+services:
+  fitness-module:
+    image: forge-project/forge_fitness-panel:latest
+    container_name: Forge_Fitness-Module
+    environment:
+      - DATABASE_URL=DATABASE_URL=postgresql+asyncpg://user:<your_password>@localhost/db
+      - FORGE_SECRET=<your_secret>
+
+  database:
+    image: postgres
+    container_name: Forge_Fitness-Database
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=<your_password>
+      - POSTGRES_DB=db
+```
+_Note: The Fitness Module must be inside the same network of the Core Service_
 
 ## Development documentation
 - [Uvicorn (Web server)](https://www.uvicorn.org/)
@@ -14,17 +39,18 @@ Prerequisites
 - Python 3.10+
 - SQL connection
 
-Clone repository
+#### Steps
+1. Clone repository
 ```shell
 git clone https://github.com/Forge-Panel/Fitness-Module.git
 ```
 
-Create virtual environment
+2. Create virtual environment
 ```shell
 python -m venv <venv>
 ```
 
-Activate environment
+3. Activate environment
 ```shell
 # Linux / Mac
 source <venv>/bin/activate
@@ -33,23 +59,23 @@ source <venv>/bin/activate
 <venv>\Scripts\activate.bat
 ```
 
-Install requirements
+4. Install requirements
 ```shell
 pip install -r requirements.txt
 ```
 
-Set environment variables
+5. Set environment variables
 ```shell
 export DATABASE_URL={dialect+driver://username:password@host:port/dbname}
 export DEBUG=true
 ```
 
-Start docker services
+6. Start docker services
 ```shell
 docker compose -f docker-compose.dev.yml up
 ```
 
-Start development servers
+7. Start development servers
 ```shell
 uvicorn app:app --reload
 ```
@@ -60,13 +86,14 @@ uvicorn app:app --reload
 Prerequisites
 - Docker
 
-Build Docker image
+#### Steps
+1. Build Docker image
 ```shell
 docker build --build-arg="PYTHON_VERSION=3.x" --tag="forge-project/forge_fitness-panel:latest"
 ```
 _Note: You must use Python version >= 3.10!_
 
-Push to the Docker registry
+2. Push to the Docker registry
 ```shell
 docker image push forge-project/forge_fitness-panel:latest
 ```

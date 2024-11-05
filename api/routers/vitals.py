@@ -22,8 +22,9 @@ async def read_vitals(
 ) -> list[VitalsResponseSchema]:
     service = VitalsService(user_id)
 
-    return VitalsResponseSchema.from_models(
-        await service.read_all_vitals_measurement_between_range(start_date, end_date))
+    return await VitalsResponseSchema.from_models(
+        await service.read_all_vitals_measurement_between_range(start_date, end_date)
+    )
 
 
 @router.get("/get_one", description="Get one vitals measurement, based on a certain datetime precise to the minute")
@@ -33,7 +34,7 @@ async def get_vitals(
 ) -> VitalsResponseSchema:
     service = VitalsService(user_id)
 
-    return VitalsResponseSchema.from_model(await service.get_one_vitals_measurement(date))
+    return await VitalsResponseSchema.from_model(await service.get_one_vitals_measurement(date))
 
 
 @router.post("/add_measurement", status_code=201, description="Add a new vitals measurement")
@@ -43,4 +44,4 @@ async def add_measurement(
 ) -> VitalsResponseSchema:
     service = VitalsService(user_id)
 
-    return VitalsResponseSchema.from_model(await service.create_new_vitals_measurement(measurements))
+    return await VitalsResponseSchema.from_model(await service.create_new_vitals_measurement(measurements))
