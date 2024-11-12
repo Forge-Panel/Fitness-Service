@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlmodel import SQLModel, Field
 
-from models import Exercise
+from models import WorkoutExercise
 from .utils import BaseCRUD
 
 
@@ -21,5 +21,5 @@ class Workout(SQLModel, BaseCRUD['Workout'], table=True):
     created_at: datetime = Field(default_factory=datetime.now)
     last_modified: datetime = Field(default_factory=datetime.now)
 
-    async def fetch_exercises(self) -> list[Exercise]:
-        return await Exercise.read_all_by_workout_id(self.id)
+    async def fetch_exercises(self) -> list[WorkoutExercise]:
+        return await WorkoutExercise.read_all_by_workout_id(self.id)

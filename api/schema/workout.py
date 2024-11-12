@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pydantic import BaseModel, Field
 from models import Workout
-from .exercise import ExerciseResponseSchema, ExerciseWriteSchema
+from .workout_exercise import ExerciseResponseSchema, ExerciseWriteSchema
 
 
 @dataclass

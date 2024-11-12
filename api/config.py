@@ -7,5 +7,7 @@ class Config(BaseSettings):
 
     database_url: AnyUrl | PostgresDsn | MySQLDsn | MariaDBDsn
 
+    forge_secret: str
+
 
 config = Config()

@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from services import VitalsService
+from api.services import VitalsService
 from ..schema.vitals import VitalsResponseSchema, VitalsWriteSchema
 
 

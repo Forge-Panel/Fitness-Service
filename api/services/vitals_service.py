@@ -1,7 +1,8 @@
 from models.utils import SessionFactory
-from models import Vitals, VitalsProperties
+from models import Vitals
 from sqlmodel import select
 from datetime import datetime
+from ..schema.vitals import VitalsWriteSchema
 
 
 class VitalsService:
@@ -47,7 +48,7 @@ class VitalsService:
 
             return results.scalar_one()
 
-    async def create_new_vitals_measurement(self, properties: VitalsProperties) -> Vitals:
+    async def create_new_vitals_measurement(self, schema: VitalsWriteSchema) -> Vitals:
         """
         Creates a new vitals measurement for the specified user.
 
@@ -55,4 +56,4 @@ class VitalsService:
         :return: The newly created Vitals instance
         """
         # Creates a new Vitals record using the user_id and provided properties
-        return await Vitals.create_new(self.user_id, properties)
+        return await Vitals.create_new(self.user_id, schema)

@@ -1,21 +1,32 @@
 from dataclasses import dataclass
 
+from datetime import datetime
 from pydantic import BaseModel, Field
-
-from models import Exercise
-from .exercise_set import ExerciseSetResponseSchema, ExerciseSetWriteSchema
+from models import Exercise, ExerciseCategory, ExerciseBodyPart
 
 
 @dataclass
 class ExerciseResponseSchema:
-    note: str
-    sets: list[ExerciseSetResponseSchema]
+    id: int
+    name: str
+    description: str
+    instructions: str
+    category: ExerciseCategory
+    body_part: ExerciseBodyPart
+    created_at: datetime
+    last_modified: datetime
 
     @classmethod
     async def from_model(cls, exercise: Exercise):
         return cls(
-            note=exercise.note,
-            sets=await ExerciseSetResponseSchema.from_models(await exercise.fetch_sets())
+            id=exercise.id,
+            name=exercise.name,
+            description=exercise.description,
+            instructions=exercise.instructions,
+            category=exercise.category,
+            body_part=exercise.body_part,
+            created_at=exercise.created_at,
+            last_modified=exercise.last_modified,
         )
 
     @classmethod
@@ -29,5 +40,8 @@ class ExerciseResponseSchema:
 
 
 class ExerciseWriteSchema(BaseModel):
-    note: str = Field(max_length=512)
-    sets: list[ExerciseSetWriteSchema]
+    name: str = Field(max_length=32)
+    description: str = Field(max_length=512)
+    instructions: str = Field(max_length=4096)
+    category: ExerciseCategory
+    body_part: ExerciseBodyPart

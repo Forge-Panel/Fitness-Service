@@ -1,8 +1,8 @@
 from .user import User
 from .vitals import Vitals, VitalsProperties
-from .exercise import Exercise
-from .exercise_set import ExerciseSet
+from .workout_exercise import WorkoutExercise
+from .workout_exercise_set import WorkoutExerciseSet
 from .workout import Workout
-from .exercise_template import ExerciseTemplate
+from .exercise import Exercise, ExerciseCategory, ExerciseBodyPart
 from .workout_template import WorkoutTemplate
 from .workout_template_exercises import WorkoutTemplateExercises
