@@ -34,6 +34,8 @@ services:
 ```
 _Note: The Fitness Module must be inside the same network of the Core Service_
 
+<br />
+
 ## Documentation
 
 ### Frameworks
