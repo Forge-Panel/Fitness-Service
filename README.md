@@ -1,4 +1,11 @@
-# Forge Fitness Module
+<p align="center">
+  <a href="https://github.com/Forge-Panel" target="blank"><img src="https://raw.githubusercontent.com/Forge-Panel/.github/refs/heads/main/images/forge_logo_dark_bg.svg" width="512" alt="Forge Logo" /></a>
+</p>
+<h1 align="center">Forge-Fitness</h1>
+
+<p align="center">Forge-Fitness is a module for your Forge installation. You can log your workouts, step counter, vitals and other health data to your Forge dashboard.</p>
+<p align="center"><i>This repository is for the backend made with FastAPI</i></p>
+
 
 ## Installation
 ### Docker Compose
@@ -27,19 +34,22 @@ services:
 ```
 _Note: The Fitness Module must be inside the same network of the Core Service_
 
-## Development documentation
+## Documentation
+
+### Frameworks
 - [Uvicorn (Web server)](https://www.uvicorn.org/)
 - [FastAPI (ASGI framework)](https://fastapi.tiangolo.com/)
 - [SQLModel (SQLAlchemy/pydantic ODM)](https://sqlmodel.tiangolo.com/)
 
+<br />
 
-### Setup project
+### Project setup
 
 Prerequisites
 - Python 3.10+
 - SQL connection
 
-#### Steps
+#### Setup development
 1. Clone repository
 ```shell
 git clone https://github.com/Forge-Panel/Fitness-Module.git
@@ -80,11 +90,12 @@ docker compose -f docker-compose.dev.yml up
 uvicorn app:app --reload
 ```
 
+<br />
 
-### Docker
+### Build Docker image
 
 Prerequisites
-- Docker
+- Docker installed
 
 #### Steps
 1. Build Docker image
