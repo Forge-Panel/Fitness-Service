@@ -21,16 +21,16 @@ services:
     image: forge-project/forge_fitness-panel:latest
     container_name: Forge_Fitness-Module
     environment:
-      - DATABASE_URL=DATABASE_URL=postgresql+asyncpg://user:<your_password>@localhost/db
+      - DATABASE_URL=DATABASE_URL=postgresql+asyncpg://<db_user>:<db_password>@localhost/<db_database>
       - FORGE_SECRET=<your_secret>
 
   database:
     image: postgres
     container_name: Forge_Fitness-Database
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=<your_password>
-      - POSTGRES_DB=db
+      - POSTGRES_USER=<db_user>
+      - POSTGRES_PASSWORD=<db_password>
+      - POSTGRES_DB=<db_database>
 ```
 _Note: The Fitness Module must be inside the same network of the Core Service_
 

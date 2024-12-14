@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Optional, List
 
 from fastapi import HTTPException, status
@@ -78,7 +77,7 @@ class ExerciseService:
         if exercise.name != exercise_schema.name and await Exercise.does_name_exist(exercise_schema.name):
             raise HTTPException(status.HTTP_409_CONFLICT, detail="Exercise name already exists")
 
-        await exercise.update(**exercise_schema.model_dump())
+        await exercise.update_self(**exercise_schema.model_dump())
 
         return exercise
 

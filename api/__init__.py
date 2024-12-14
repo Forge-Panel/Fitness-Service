@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from .routers import init_routers
 from .database import init_database
+from .cors import init_cors
 
 
 @asynccontextmanager
@@ -19,4 +20,5 @@ app = FastAPI(
 
 
 # Init modules
+init_cors(app)
 init_routers(app)

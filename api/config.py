@@ -9,5 +9,7 @@ class Config(BaseSettings):
 
     forge_secret: str
 
+    cors_allowed_domains: set[str] = set()
+
 
 config = Config()

@@ -19,7 +19,7 @@ ExerciseServiceFactory = Annotated[ExerciseService, Depends(exercise_service_fac
 router = APIRouter(prefix="/exercise", tags=["Exercise"])
 
 
-@router.get("/", description="Read all exercises.")
+@router.get("/all", description="Read all exercises.")
 async def read_all_exercises(
         exercise_service: ExerciseServiceFactory,
         limit: int = 100,
@@ -28,7 +28,7 @@ async def read_all_exercises(
     return await ExerciseResponseSchema.from_models(await exercise_service.read_all_exercises(offset, limit))
 
 
-@router.post("/", description="Create new exercise.", status_code=status.HTTP_201_CREATED)
+@router.post("/create", description="Create new exercise.", status_code=status.HTTP_201_CREATED)
 async def create_new_exercise(
         exercise_service: ExerciseServiceFactory,
         schema: ExerciseWriteSchema
@@ -36,7 +36,7 @@ async def create_new_exercise(
     return await ExerciseResponseSchema.from_model(await exercise_service.create_new_exercise(schema))
 
 
-@router.get("/{id}", description="Get the exercise by id.")
+@router.get("/byId/{id}", description="Get the exercise by id.")
 async def get_exercise_by_id(
         exercise_service: ExerciseServiceFactory,
         id: int
@@ -44,7 +44,7 @@ async def get_exercise_by_id(
     return await ExerciseResponseSchema.from_model(await exercise_service.get_exercise_by_id(id))
 
 
-@router.put("/{id}", description="Update the exercise by id.", status_code=status.HTTP_201_CREATED)
+@router.put("/byId/{id}", description="Update the exercise by id.", status_code=status.HTTP_201_CREATED)
 async def update_exercise_by_id(
         exercise_service: ExerciseServiceFactory,
         id: int,
@@ -53,7 +53,7 @@ async def update_exercise_by_id(
     return await ExerciseResponseSchema.from_model(await exercise_service.update_exercise_by_id(id, schema))
 
 
-@router.delete("/{id}", description="Delete the exercise by id.", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/byId/{id}", description="Delete the exercise by id.", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_exercise_by_id(
         exercise_service: ExerciseServiceFactory,
         id: int
