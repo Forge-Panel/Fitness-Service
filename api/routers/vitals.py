@@ -1,9 +1,9 @@
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends
 
-from api.services import VitalsService
+from ..services import VitalsService
 from ..schema.vitals import VitalsResponseSchema, VitalsWriteSchema
 
 
@@ -18,12 +18,13 @@ router = APIRouter(prefix="/vitals", tags=["Vitals"])
 async def read_vitals(
         user_id: Annotated[int, Depends(get_current_user)],
         start_date: datetime,
-        end_date: datetime
+        end_date: datetime,
+        order_by: Literal['asc', 'desc'] = 'desc'
 ) -> list[VitalsResponseSchema]:
     service = VitalsService(user_id)
 
     return await VitalsResponseSchema.from_models(
-        await service.read_all_vitals_measurement_between_range(start_date, end_date)
+        await service.read_all_vitals_measurement_between_range(start_date, end_date, order_by)
     )
 
 

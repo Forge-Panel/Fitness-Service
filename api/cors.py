@@ -4,7 +4,7 @@ from .config import config
 
 
 def init_cors(app: FastAPI):
-    if config.debug:
+    if config.app_debug:
         origins = [
             "http://localhost",
             "http://localhost:3000",

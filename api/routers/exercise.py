@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
 
-from api.services import ExerciseService
+from ..services import ExerciseService
 from ..schema.exercise import ExerciseResponseSchema, ExerciseWriteSchema
 
 

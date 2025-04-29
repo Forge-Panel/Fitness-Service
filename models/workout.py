@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlmodel import SQLModel, Field
 
-from models import WorkoutExercise
+from .workout_exercise import WorkoutExercise
 from .utils import BaseCRUD
 
 

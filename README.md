@@ -1,9 +1,9 @@
 <p align="center">
   <a href="https://github.com/Forge-Panel" target="blank"><img src="https://raw.githubusercontent.com/Forge-Panel/.github/refs/heads/main/images/forge_logo_dark_bg.svg" width="512" alt="Forge Logo" /></a>
 </p>
-<h1 align="center">Forge-Fitness</h1>
+<h1 align="center">Fitness</h1>
 
-<p align="center">Forge-Fitness is a module for your Forge installation. You can log your workouts, step counter, vitals and other health data to your Forge dashboard.</p>
+<p align="center">Forge-Fitness is an open source module to keep track of your fitness statistics.</p>
 <p align="center"><i>This repository is for the backend made with FastAPI</i></p>
 
 
@@ -11,7 +11,7 @@
 ### Docker Compose
 
 Prerequisites
-- Forge-Core must be installed and setup
+- Docker installed
 
 #### Steps
 1. Launch the following docker services
@@ -22,7 +22,6 @@ services:
     container_name: Forge_Fitness-Module
     environment:
       - DATABASE_URL=DATABASE_URL=postgresql+asyncpg://<db_user>:<db_password>@localhost/<db_database>
-      - FORGE_SECRET=<your_secret>
 
   database:
     image: postgres
@@ -32,8 +31,9 @@ services:
       - POSTGRES_PASSWORD=<db_password>
       - POSTGRES_DB=<db_database>
 ```
-_Note: The Fitness Module must be inside the same network of the Core Service_
 
+2. Connect the app to your instance
+3. Done!
 <br />
 
 ## Documentation
@@ -79,7 +79,7 @@ pip install -r requirements.txt
 5. Set environment variables
 ```shell
 export DATABASE_URL={dialect+driver://username:password@host:port/dbname}
-export DEBUG=true
+export APP_DEBUG=true
 ```
 
 6. Start docker services
@@ -102,7 +102,7 @@ Prerequisites
 #### Steps
 1. Build Docker image
 ```shell
-docker build --build-arg="PYTHON_VERSION=3.x" --tag="forge-project/forge_fitness-panel:latest"
+docker build --build-arg="PYTHON_VERSION=3.12" --tag="forge-project/forge_fitness-panel:latest"
 ```
 _Note: You must use Python version >= 3.10!_
 

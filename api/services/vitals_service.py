@@ -1,6 +1,8 @@
+from typing import Literal
+
 from models.utils import SessionFactory
 from models import Vitals
-from sqlmodel import select
+from sqlmodel import select, asc, desc
 from datetime import datetime
 from ..schema.vitals import VitalsWriteSchema
 
@@ -13,7 +15,7 @@ class VitalsService:
         # Initializes VitalsService with a user ID
         self.user_id = user_id
 
-    async def read_all_vitals_measurement_between_range(self, start_date: datetime, end_date: datetime) -> list[Vitals]:
+    async def read_all_vitals_measurement_between_range(self, start_date: datetime, end_date: datetime, order: Literal['asc', 'desc'] = 'desc') -> list[Vitals]:
         """
         Retrieves all vitals measurements for the specified user within a date range.
 
@@ -24,7 +26,8 @@ class VitalsService:
         stmt = select(Vitals) \
             .where(Vitals.user_id == self.user_id) \
             .where(Vitals.date >= start_date) \
-            .where(Vitals.date <= end_date)
+            .where(Vitals.date <= end_date) \
+            .order_by(asc(Vitals.date) if order == 'asc' else desc(Vitals.date))
 
         async with SessionFactory.get_session() as session:
             results = await session.execute(stmt)

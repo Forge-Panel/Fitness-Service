@@ -3,7 +3,7 @@ from typing import Optional, List
 from fastapi import HTTPException, status
 from sqlmodel import select
 
-from api.schema.exercise import ExerciseWriteSchema
+from ..schema.exercise import ExerciseWriteSchema
 from models import Exercise
 from models.utils import SessionFactory
 
