@@ -31,3 +31,18 @@ class WorkoutExercise(SQLModel, BaseCRUD['WorkoutExercise'], table=True):
         from .workout_exercise_set import WorkoutExerciseSet
         
         return await WorkoutExerciseSet.read_all_by_workout_exercise_id(self.id)
+
+    @classmethod
+    async def create_new(cls, workout_id: int, exercise_id: int, note: str) -> WorkoutExercise:
+        new_obj = cls(
+            workout_id=workout_id,
+            exercise_id=exercise_id,
+            note=note
+        )
+
+        async with SessionFactory.get_session() as session:
+            session.add(new_obj)
+
+            await session.commit()
+
+            return new_obj

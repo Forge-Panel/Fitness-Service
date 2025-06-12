@@ -1,5 +1,5 @@
 from typing import TypeVar, Generic
-from sqlalchemy import select
+from sqlalchemy import select, Select
 from .session_factory import SessionFactory
 
 T = TypeVar("T", bound="BaseCRUD")
@@ -7,11 +7,20 @@ T = TypeVar("T", bound="BaseCRUD")
 
 class BaseCRUD(Generic[T]):
     @classmethod
-    async def read_all(cls: type[T], offset: int = 0, limit: int = 100, ) -> list[T]:
-        query = select(cls).offset(offset).limit(limit)
+    async def read_all(cls: type[T], offset: int = 0, limit: int = 100, query: Select | None = None) -> list[T]:
+        if query is None:
+            query = select(cls)
+
+        query = query.offset(offset).limit(limit)
 
         async with SessionFactory.get_session() as session:
             results = await session.execute(query)
+            return results.scalars().all()
+
+    @classmethod
+    async def read_ids(cls: type[T], ids: list[int]) -> list[T]:
+        async with SessionFactory.get_session() as session:
+            results = await session.execute(select(cls).where(cls.id.in_(ids)))
             return results.scalars().all()
 
     @classmethod

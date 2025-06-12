@@ -7,6 +7,8 @@ class Config(BaseSettings):
 
     database_url: PostgresDsn | MySQLDsn | MariaDBDsn
 
+    base_url: str = '/'
+
     cors_allowed_domains: set[str] = set()
 
 

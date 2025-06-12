@@ -3,15 +3,17 @@ from __future__ import annotations
 from datetime import datetime
 
 from sqlmodel import SQLModel, Field, select
-from .utils import SessionFactory
+from .utils import SessionFactory, BaseCRUD
 
 
-class User(SQLModel, table=True):
+class User(SQLModel, BaseCRUD['User'], table=True):
     __tablename__ = "user"
 
     id: int | None = Field(default=None, primary_key=True)
 
     name: str
+
+    is_private: bool = True
 
     created_at: datetime = Field(default_factory=datetime.now)
     last_modified: datetime = Field(default_factory=datetime.now)
@@ -44,8 +46,12 @@ class User(SQLModel, table=True):
             return result.scalar_one_or_none()
 
     @classmethod
-    async def does_id_exist(cls, id: int) -> bool:
-        return bool(await cls.try_get_by_id(id))
+    async def try_get_by_name(cls, name: str) -> User | None:
+        query = select(cls).where(cls.name == name)
+
+        async with SessionFactory.get_session() as session:
+            result = await session.execute(query)
+            return result.scalar_one_or_none()
 
     @classmethod
     async def does_name_exist(cls, name: str) -> bool:
@@ -68,4 +74,3 @@ class User(SQLModel, table=True):
             await session.commit()
 
             return user
-

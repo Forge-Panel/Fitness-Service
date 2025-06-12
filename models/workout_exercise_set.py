@@ -1,20 +1,20 @@
 from __future__ import annotations
 from sqlmodel import SQLModel, Field, select
 
-from .utils import SessionFactory
+from .utils import BaseCRUD, SessionFactory
 
 
-class WorkoutExerciseSet(SQLModel, table=True):
+class WorkoutExerciseSet(SQLModel, BaseCRUD['WorkoutExerciseSet'], table=True):
     __tablename__ = "workout_exercise_set"
 
     id: int | None = Field(default=None, primary_key=True)
 
     workout_exercise_id: int = Field(foreign_key="workout_exercise.id")
 
-    distance: int
-    weight: int
-    time: int
-    reps: int
+    distance: int | None = None
+    weight: int | None = None
+    time: int | None = None
+    reps: int | None = None
 
     @classmethod
     async def read_all_by_workout_exercise_id(cls, workout_exercise_id: int) -> list[WorkoutExerciseSet]:
