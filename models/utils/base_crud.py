@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Union
 from sqlalchemy import select, Select
 from .session_factory import SessionFactory
 
@@ -18,10 +18,13 @@ class BaseCRUD(Generic[T]):
             return results.scalars().all()
 
     @classmethod
-    async def read_ids(cls: type[T], ids: list[int]) -> list[T]:
+    async def read_ids(cls: type[T], ids: list[int]) -> list[Union[T, Exception]]:
         async with SessionFactory.get_session() as session:
             results = await session.execute(select(cls).where(cls.id.in_(ids)))
-            return results.scalars().all()
+            found_items = {item.id: item for item in results.scalars().all()}
+
+        # Preserve input order and insert ValueError where missing
+        return [found_items.get(id_, ValueError(f"{cls.__name__} with id {id_} not found")) for id_ in ids]
 
     @classmethod
     async def get_by_id(cls: type[T], id: int) -> T:
@@ -43,8 +46,14 @@ class BaseCRUD(Generic[T]):
     async def does_id_exist(cls: type[T], id: int) -> bool:
         return bool(await cls.try_get_by_id(id))
 
+    async def update_self(self):
+        async with SessionFactory.get_session() as session:
+            session.add(self)
+
+            await session.commit()
+
     async def delete_self(self):
         async with SessionFactory.get_session() as session:
-            session.delete(self)
+            await session.delete(self)
 
             await session.commit()

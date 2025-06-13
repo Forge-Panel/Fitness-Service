@@ -14,10 +14,15 @@ class WorkoutStartInput:
     note: str = strawberry.field(description="Note of the workout")
 
 
+@strawberry.input
+class WorkoutOrderInput:
+    pass
+
+
 @strawberry.type
 class WorkoutsQueries:
     @strawberry.field
-    async def all(self, page: int = 1, count: int = 10) -> list[WorkoutType]:
+    async def all(self, page: int = 1, count: int = 10, order_by: list[str, str]) -> list[WorkoutType]:
         async with SessionFactory.get_session() as session:
             query = (
                 select(Workout)

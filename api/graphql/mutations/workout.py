@@ -1,15 +1,10 @@
 import strawberry
 
-from models import Workout
+from models import Workout, WorkoutExerciseSet
 
-from datetime import datetime
-
-from ..dataloaders import workout_loader
-from ..types import WorkoutType
-
-@strawberry.input
-class WorkoutStartInput:
-    note: str = strawberry.field(description="Note of the workout")
+from ..dataloaders import workout_loader, workout_exercise_loader
+from ..types import WorkoutType, WorkoutExerciseType, WorkoutExerciseSetInput
+from .workout_exercise import WorkoutExerciseMutation
 
 
 @strawberry.type
@@ -20,46 +15,30 @@ class WorkoutMutation:
         self.workout = workout
 
     @strawberry.mutation
-    async def finish(
-            self
-    ) -> WorkoutType:
+    async def finish(self) -> WorkoutType:
         await self.workout.finish()
-        print("Workout is finisuhed now")
-        print(self.workout)
 
-        workout_loader.clear(self.workout.id)
+        # Update cache
+        workout_loader.prime(self.workout.id, self.workout)
 
         return self.workout
 
     @strawberry.mutation
-    async def add_exercise(
-            self
-    ) -> WorkoutType:
-        await self.workout.finish()
+    async def add_exercise(self, exercise_id: int, note: str | None = None, sets: list[WorkoutExerciseSetInput] = None) -> WorkoutExerciseType:
+        workout_exercise = await self.workout.add_exercise(exercise_id, note, [WorkoutExerciseSet(reps=set.reps, weight=set.weight) for set in sets])
 
-        workout_loader.clear(self.workout.id)
+        # Update cache
+        workout_exercise_loader.prime(workout_exercise.id, workout_exercise)
 
-        return self.workout
-
-
-@strawberry.type
-class WorkoutRootMutation:
-    @strawberry.mutation
-    async def start(
-            self,
-            input: WorkoutStartInput
-    ) -> WorkoutType:
-        workout = await Workout.start_new(
-            user_id=1,
-            note=input.note
-        )
-
-        workout_loader.prime(id, workout)
-
-        return workout
+        return workout_exercise
 
     @strawberry.field
-    async def by_id(self, id: int) -> WorkoutMutation | None:
-        workout = await workout_loader.load(id)
+    async def exercise_by_id(self, id: int) -> WorkoutExerciseMutation | None:
+        return WorkoutExerciseMutation(await workout_exercise_loader.load(id))
 
-        return WorkoutMutation(workout)
+    @strawberry.field
+    async def delete(self) -> None:
+        # Clear cache
+        workout_loader.clear(self.workout.id)
+
+        await self.workout.delete_self()

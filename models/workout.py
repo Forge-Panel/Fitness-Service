@@ -1,21 +1,18 @@
 from datetime import datetime
 
-from sqlalchemy import Column, JSON
 from sqlmodel import SQLModel, Field
 from .utils import SessionFactory, BaseCRUD
+from .workout_exercise_set import WorkoutExerciseSet
 
 
 class Workout(SQLModel, BaseCRUD['Workout'], table=True):
     __tablename__ = "workout"
 
-    class Config:
-        arbitrary_types_allowed = True
-
     id: int | None = Field(default=None, primary_key=True)
 
-    user_id: int = Field(foreign_key="user.id")
+    user_id: int = Field(foreign_key="user.id", ondelete="CASCADE")
 
-    note: str
+    note: str | None = None
 
     started_on: datetime
     ended_on: datetime | None
@@ -52,15 +49,7 @@ class Workout(SQLModel, BaseCRUD['Workout'], table=True):
 
             await session.commit()
 
-
-    async def add_exercise(self, exercise_id: int, note: str):
+    async def add_exercise(self, exercise_id: int, note: str | None = None, sets: list[WorkoutExerciseSet] | None = None):
         from .workout_exercise import WorkoutExercise
 
-        return await WorkoutExercise.create_new(workout_id=self.id, exercise_id=exercise_id, note=note)
-
-    async def remove_exercise(self, id: int):
-        from .workout_exercise import WorkoutExercise
-
-        return await WorkoutExercise.create_new(workout_id=self.id, exercise_id=exercise_id, note=note)
-
-
+        return await WorkoutExercise.create_new(workout_id=self.id, exercise_id=exercise_id, note=note, sets=sets)

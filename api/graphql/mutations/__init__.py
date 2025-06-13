@@ -1,6 +1,6 @@
 import strawberry
 
-from .workout import WorkoutRootMutation
+from .workout_root import WorkoutRootMutation
 
 
 @strawberry.type

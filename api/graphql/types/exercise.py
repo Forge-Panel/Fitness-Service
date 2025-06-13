@@ -5,7 +5,7 @@ from models import Exercise
 
 @strawberry.experimental.pydantic.type(model=Exercise)
 class ExerciseType:
-    id: strawberry.auto
+    id: strawberry.ID
     name: strawberry.auto
     description: strawberry.auto
     instructions: strawberry.auto

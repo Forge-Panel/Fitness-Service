@@ -9,7 +9,7 @@ from .workout_exercise import WorkoutExerciseType
 
 @strawberry.experimental.pydantic.type(model=Workout)
 class WorkoutType:
-    id: strawberry.auto
+    id: strawberry.ID
 
     user_id: strawberry.auto
 
