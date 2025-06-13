@@ -29,7 +29,10 @@ class WorkoutRootMutation:
         return workout
 
     @strawberry.field
-    async def by_id(self, id: int) -> WorkoutMutation | None:
+    async def by_id(self, id: int) -> WorkoutMutation:
         workout = await workout_loader.load(id)
+
+        if workout.user_id != 1:
+            raise Exception(f"Workout with id {id} was not found")
 
         return WorkoutMutation(workout)

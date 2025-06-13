@@ -1,11 +1,25 @@
+from functools import cached_property
+
 import strawberry
-from fastapi import FastAPI, Depends
-from strawberry.fastapi import GraphQLRouter
+from fastapi import FastAPI
+from strawberry.fastapi import BaseContext, GraphQLRouter
+
+from .dataloaders import user_loader
 from .queries import Query
 from .mutations import Mutation
 
 from ..config import config
+from models import User
 
+
+# class Context(BaseContext):
+#     @cached_property
+#     def user(self) -> User | None:
+#         if not self.request:
+#             return None
+#
+#         authorization = self.request.headers.get("Authorization", None)
+#         return authorization_service.authorize(authorization)
 
 
 def init_graphql(app: FastAPI):
