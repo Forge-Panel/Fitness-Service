@@ -1,15 +1,11 @@
-from functools import cached_property
-
 import strawberry
 from fastapi import FastAPI
-from strawberry.fastapi import BaseContext, GraphQLRouter
+from strawberry.fastapi import GraphQLRouter
 
-from .dataloaders import user_loader
 from .queries import Query
 from .mutations import Mutation
 
 from ..config import config
-from models import User
 
 
 # class Context(BaseContext):

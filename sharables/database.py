@@ -1,5 +1,5 @@
 from models.utils import init_engine, create_tables
-from .config import config
+from app.config import config
 
 
 async def init_database():

@@ -1,9 +1,8 @@
 import strawberry
 
 from models import WorkoutExercise
-from models.utils import SessionFactory
 from . import ExerciseType, WorkoutExerciseSet
-from ..dataloaders import exercise_loader
+from sharables.dataloaders import exercise_loader
 
 
 

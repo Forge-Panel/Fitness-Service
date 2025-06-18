@@ -11,7 +11,7 @@ WORKDIR /app
 ADD requirements.txt .
 RUN pip install -r requirements.txt
 
-ADD api/ .
+ADD app/ .
 ADD models/ .
 
 EXPOSE 8000

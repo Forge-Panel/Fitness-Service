@@ -1,11 +1,8 @@
-from typing import Literal
-
-from sqlalchemy import column
 from sqlmodel import select, asc, desc
 
 import strawberry
 
-from ..dataloaders import exercise_loader
+from sharables.dataloaders import exercise_loader
 from ..types import ExerciseType
 from enum import Enum
 

@@ -3,7 +3,7 @@ import strawberry
 from models import WorkoutExercise, WorkoutExerciseSet
 
 from ..types import WorkoutExerciseSetInput
-from ..dataloaders import workout_exercise_loader
+from sharables.dataloaders import workout_exercise_loader
 
 
 @strawberry.type

@@ -3,7 +3,7 @@ import strawberry
 from models import Workout
 
 from ..types import WorkoutType
-from ..dataloaders import workout_loader
+from sharables.dataloaders import workout_loader
 from .workout import WorkoutMutation
 
 

@@ -4,7 +4,7 @@ from sqlmodel import select, asc, desc
 
 import strawberry
 
-from ..dataloaders import workout_loader
+from sharables.dataloaders import workout_loader
 from ..types import WorkoutType
 
 from models import Workout

@@ -1,6 +1,6 @@
 import strawberry
 
-from ..dataloaders import user_loader
+from sharables.dataloaders import user_loader
 from ..types import UserType
 
 from models import User
