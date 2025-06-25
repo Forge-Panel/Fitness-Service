@@ -44,7 +44,6 @@ class ExercisesQueries:
         query = select(Exercise)
 
         if search:
-            print(search)
             query = query.where(
                 or_(
                     Exercise.name.contains(search),
