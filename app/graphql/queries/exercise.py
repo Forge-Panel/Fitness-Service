@@ -1,4 +1,4 @@
-from sqlmodel import select, asc, desc
+from sqlmodel import select, asc, desc, or_
 
 import strawberry
 
@@ -36,15 +36,22 @@ class ExercisesQueries:
             self,
             page: int = 1,
             count: int = 10,
-            name: str | None = None,
+            search: str | None = None,
             category: list[ExerciseCategory] | None = None,
             body_part: list[ExerciseBodyPart] | None = None,
             order_by: list[ExerciseOrderBy] | None = None,
     ) -> list[ExerciseType]:
         query = select(Exercise)
 
-        if name:
-            query = query.where(Exercise.name.contains(name))
+        if search:
+            print(search)
+            query = query.where(
+                or_(
+                    Exercise.name.contains(search),
+                    Exercise.description.contains(search),
+                    Exercise.instructions.contains(search),
+                )
+            )
 
         if category:
             query = query.where(Exercise.category.in_(category))
@@ -54,7 +61,7 @@ class ExercisesQueries:
 
         if order_by is not None:
             for order in order_by:
-                query = query.order_by(asc(order.field.value) if order.order == ExerciseOrderByDirection.ASC else desc(order.field.value))
+                query = query.order_by(asc(order.field.value) if order.order == ExerciseOrderByOrder.ASC else desc(order.field.value))
 
         return await Exercise.read_all(
             offset=page * count - count,
