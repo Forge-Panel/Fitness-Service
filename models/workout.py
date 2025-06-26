@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from datetime import datetime
 
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, select
 from .utils import SessionFactory, BaseCRUD
 from .workout_exercise_set import WorkoutExerciseSet
 
@@ -21,7 +23,29 @@ class Workout(SQLModel, BaseCRUD['Workout'], table=True):
     last_modified: datetime = Field(default_factory=datetime.now)
 
     @classmethod
-    async def start_new(cls, user_id: int, note: str):
+    async def get_active_workout(cls, user_id: int) -> Workout | None:
+        async with SessionFactory.get_session() as session:
+            query = select(cls) \
+                .where(
+                cls.user_id == user_id,
+                cls.ended_on == None
+            )
+
+            result = await session.execute(query)
+
+            return result.scalar_one_or_none()
+
+    @classmethod
+    async def has_active_workout_by_user_id(cls, user_id: int) -> bool:
+        active_workout = await cls.get_active_workout(user_id)
+
+        return bool(active_workout)
+
+    @classmethod
+    async def start_new(cls, user_id: int, note: str | None = None):
+        if await cls.has_active_workout_by_user_id(user_id):
+            raise Exception("User already has an active workout")
+
         new_obj = cls(
             user_id=user_id,
             note=note,

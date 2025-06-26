@@ -36,12 +36,3 @@ class WorkoutRootMutation:
             raise Exception(f"Workout with id {id} was not found")
 
         return WorkoutMutation(workout)
-
-    @strawberry.field
-    async def current(self) -> WorkoutMutation:
-        workout = await Workout.get_active_workout(1)
-
-        if workout is None:
-            raise Exception("No active workout found")
-
-        return WorkoutMutation(workout)

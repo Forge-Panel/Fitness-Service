@@ -13,6 +13,7 @@ RUN pip install -r requirements.txt
 
 ADD app/ .
 ADD models/ .
+ADD sharables/ .
 
 EXPOSE 8000
 

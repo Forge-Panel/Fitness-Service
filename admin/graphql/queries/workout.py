@@ -59,7 +59,3 @@ class WorkoutsQueries:
             return None
 
         return workout
-
-    @strawberry.field
-    async def current(self) -> WorkoutType | None:
-        return await Workout.get_active_workout(1)

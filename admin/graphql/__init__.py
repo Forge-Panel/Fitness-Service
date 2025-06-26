@@ -22,4 +22,4 @@ def init_graphql(app: FastAPI):
     schema = strawberry.Schema(query=Query, mutation=Mutation)
 
     graphql_app = GraphQLRouter(schema, graphiql=config.app_debug)
-    app.include_router(graphql_app, prefix=f"{config.base_url}api/graphql", tags=['GraphQL'])
+    app.include_router(graphql_app, prefix=f"{config.base_url}api/admin/graphql", tags=['GraphQL'])

@@ -12,20 +12,14 @@ class User(SQLModel, BaseCRUD['User'], table=True):
     id: int | None = Field(default=None, primary_key=True)
 
     name: str
+    email: str
+
+    password: str
 
     is_private: bool = True
 
     created_at: datetime = Field(default_factory=datetime.now)
     last_modified: datetime = Field(default_factory=datetime.now)
-
-    @classmethod
-    async def read_all(cls, offset: int = 0, limit: int = 100):
-        query = select(cls).offset(offset).limit(limit)
-
-        async with SessionFactory.get_session() as session:
-            results = await session.execute(query)
-
-            return results.scalars().all()
 
     @classmethod
     async def get_by_id(cls, id: int) -> User:
@@ -59,11 +53,13 @@ class User(SQLModel, BaseCRUD['User'], table=True):
 
 
     @classmethod
-    async def create_new(cls, name: str)-> User:
+    async def create_new(cls, name: str, email: str, password: str)-> User:
         current_date = datetime.now()
 
         user = cls(
             name=name,
+            email=email,
+            password=password,
             created_at=current_date,
             last_modified=current_date
         )

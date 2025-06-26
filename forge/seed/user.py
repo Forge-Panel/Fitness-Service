@@ -14,17 +14,17 @@ async def seed_users():
 
     print("Inserting Users...", end='')
     users = await asyncio.gather(*[
-        User.create_new(name) for name in [
-            "Cathyleen Beston",
-            "Sigismond Yakovlev",
-            "Trevar Staniford",
-            "Frieda Welman",
-            "Meghann Glazyer",
-            "Amandy Beswell",
-            "Sharl Siman",
-            "Piper Lambell",
-            "Meridel Groundwator",
-            "Bucky Triplett"
+        User.create_new(name, email, password) for name, email, password in [
+            ("Cathyleen Beston", "test@gmail.com", "1234"),
+            ("Sigismond Yakovlev", "test@gmail.com", "1234"),
+            ("Trevar Staniford", "test@gmail.com", "1234"),
+            ("Frieda Welman", "test@gmail.com", "1234"),
+            ("Meghann Glazyer", "test@gmail.com", "1234"),
+            ("Amandy Beswell", "test@gmail.com", "1234"),
+            ("Sharl Siman", "test@gmail.com", "1234"),
+            ("Piper Lambell", "test@gmail.com", "1234"),
+            ("Meridel Groundwator", "test@gmail.com", "1234"),
+            ("Bucky Triplett", "test@gmail.com", "1234")
         ]
     ])
 
